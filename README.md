@@ -14,7 +14,7 @@ git clone https://github.com/Alex-mint/DMN_TG_bot.git
 pip install -r requirements.txt
 ```
 
-###Переменные окружения
+### Переменные окружения
 
 Создайте файл .env в корневой папке с кодом и запишите туда:
 ```python
