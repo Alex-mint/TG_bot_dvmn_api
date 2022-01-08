@@ -69,8 +69,8 @@ def main():
             if decoded_response["status"] == "timeout":
                 params = {"timestamp": decoded_response["timestamp_to_request"]}
             elif decoded_response["status"] == "found":
-                new_attempts = decoded_response["new_attempts"][0]
-                send_message_to_tg(bot, chat_id, new_attempts)
+                new_attempt = decoded_response["new_attempts"][0]
+                send_message_to_tg(bot, chat_id, new_attempt)
                 params = {"timestamp": decoded_response["last_attempt_timestamp"]}
         except Exception:
             logger.exception('Бот упал с ошибкой:')
