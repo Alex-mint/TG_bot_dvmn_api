@@ -65,13 +65,14 @@ def main():
             except requests.exceptions.ReadTimeout:
                 continue
 
-            decoded_response = response.json()
-            if decoded_response["status"] == "timeout":
-                params = {"timestamp": decoded_response["timestamp_to_request"]}
-            elif decoded_response["status"] == "found":
-                new_attempt = decoded_response["new_attempts"][0]
+            response = response.json()
+            print(response)
+            if response["status"] == "timeout":
+                params = {"timestamp": response["timestamp_to_request"]}
+            elif response["status"] == "found":
+                new_attempt = response["new_attempts"][0]
                 send_message_to_tg(bot, chat_id, new_attempt)
-                params = {"timestamp": decoded_response["last_attempt_timestamp"]}
+                params = {"timestamp": response["last_attempt_timestamp"]}
         except Exception:
             logger.exception('Бот упал с ошибкой:')
 
