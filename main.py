@@ -6,10 +6,6 @@ import time
 import logging
 
 
-logger = logging.getLogger('Devman logger')
-logging.basicConfig(format="%(levelname)s %(message)s %(exc_info)s")
-
-
 class TelegramLogsHandler(logging.Handler):
 
     def __init__(self, bot, chat_id):
@@ -45,6 +41,7 @@ def main():
         "Authorization": f"Token {dvmn_token}",
     }
 
+    logger = logging.getLogger('Devman logger')
     logger.setLevel(logging.INFO)
     logger.addHandler(TelegramLogsHandler(bot, chat_id))
     logger.info('Бот запущен')
@@ -66,7 +63,6 @@ def main():
                 continue
 
             response = response.json()
-            print(response)
             if response["status"] == "timeout":
                 params = {"timestamp": response["timestamp_to_request"]}
             elif response["status"] == "found":
