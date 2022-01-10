@@ -6,6 +6,9 @@ import time
 import logging
 
 
+logger = logging.getLogger('Devman logger')
+
+
 class TelegramLogsHandler(logging.Handler):
 
     def __init__(self, bot, chat_id):
@@ -41,7 +44,6 @@ def main():
         "Authorization": f"Token {dvmn_token}",
     }
 
-    logger = logging.getLogger('Devman logger')
     logger.setLevel(logging.INFO)
     logger.addHandler(TelegramLogsHandler(bot, chat_id))
     logger.info('Бот запущен')
@@ -62,13 +64,13 @@ def main():
             except requests.exceptions.ReadTimeout:
                 continue
 
-            response = response.json()
-            if response["status"] == "timeout":
-                params = {"timestamp": response["timestamp_to_request"]}
-            elif response["status"] == "found":
-                new_attempt = response["new_attempts"][0]
+            homeworks = response.json()
+            if homeworks["status"] == "timeout":
+                params = {"timestamp": homeworks["timestamp_to_request"]}
+            elif homeworks["status"] == "found":
+                new_attempt = homeworks["new_attempts"][0]
                 send_message_to_tg(bot, chat_id, new_attempt)
-                params = {"timestamp": response["last_attempt_timestamp"]}
+                params = {"timestamp": homeworks["last_attempt_timestamp"]}
         except Exception:
             logger.exception('Бот упал с ошибкой:')
 
